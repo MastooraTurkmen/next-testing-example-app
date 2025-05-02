@@ -2,8 +2,10 @@ function sum(a, b) {
     return a + b
 }
 
-function help() {
-    console.log("help")
+function myFunction(input) {
+    if (typeof input !== "number") {
+        throw new Error("Invalid input")
+    }
 }
 
-module.exports = sum
+module.exports = { sum, myFunction }
