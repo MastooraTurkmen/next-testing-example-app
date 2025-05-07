@@ -5,3 +5,7 @@ exports.sum = (a, b) => {
 exports.deleteUserById = (array, id) => {
     return array.filter(user => user.id !== id)
 }
+
+exports.findUserById = (array, id) => {
+    return array.find(user => user.id === id)
+}
