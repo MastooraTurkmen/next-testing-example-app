@@ -1,5 +1,4 @@
-const { sum, deleteUserById } = require("../utils/helper")
-
+const { sum, deleteUserById, findUserById } = require("../utils/helper")
 
 test("1 plus 1 equals 2", () => {
     let a = 1;
@@ -165,5 +164,36 @@ describe("Testing imported function", () => {
             }
         ])
 
+        expect(deleteUserById(users, 3).length).toBe(2)
+
+    })
+
+    // done by Test Driven Development
+    test("Finds a user by ID from a list of users", () => {
+        const users = [
+            {
+                id: 1,
+                name: "Clement",
+                age: 45
+            },
+            {
+                id: 2,
+                name: "John",
+                age: 30
+            },
+            {
+                id: 3,
+                name: "Jane",
+                age: 25
+            }
+        ]
+
+        expect(findUserById(users, 1)).toEqual({
+            name: "Clement",
+            age: 45,
+            id: 1
+        })
+
+        expect(findUserById(users, 10)).toBeUndefined()
     })
 })
