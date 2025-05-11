@@ -3,8 +3,51 @@ import { it, expect } from "vitest";
 import { add } from "./math.js";
 
 it("should summarize all number values in an array", () => {
-    const result = add([1, 2, 3])
 
-    expect(result).toBe(6)
+    // Arrange
+    const numbers = [1, 2, 3]
 
+    // Act
+    const result = add(numbers)
+
+    // Assert 
+    const expectedResult = numbers.reduce((prev, cur) => {
+        return prev + cur
+    }, 0)
+    expect(result).toBe(expectedResult)
+})
+
+
+it("should yield NaN if a least one invalid number is provided", () => {
+    // Arrange
+    const inputs = ["invalid", 1]
+
+    const result = add(inputs)
+
+    expect(result).toBeNaN()
+})
+
+it("should yield a correct sum if an array of numeric string values is provided", () => {
+    const numbers = ["1", "2", "3"]
+    const result = add(numbers)
+    const expectedResult = numbers.reduce((prev, cur) => {
+        return +prev + +cur
+    }, 0)
+
+    expect(result).toBe(expectedResult)
+})
+
+it("should yield 0 if an empty array is provided", () => {
+    const numbers = []
+    const result = add(numbers)
+
+    expect(result).toBe(0)
+})
+
+it("should throw an error if no value is passed into the function", () => {
+    const resultFn = () => {
+        add()
+    }
+
+    expect(resultFn).toThrow()
 })
