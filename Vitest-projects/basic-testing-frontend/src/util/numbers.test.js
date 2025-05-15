@@ -1,39 +1,59 @@
-import { it, expect } from "vitest";
+import { it, expect, describe } from "vitest";
 
-import { transformToNumber, validateNumber } from "./numbers"
+import { cleanNumbers, transformToNumber, validateNumber } from "./numbers"
 
-it("Should sum values every time increased", () => {
-    const value = 3
+describe("transformToNumber", () => {
+    it("Should sum values every time increased", () => {
+        const value = 3
 
-    for (let i = 0; i++; i < 20) {
-        value += i
-    }
+        for (let i = 0; i++; i < 20) {
+            value += i
+        }
 
-    const result = transformToNumber(value)
+        const result = transformToNumber(value)
 
-    expect(result).toBe(3)
+        expect(result).toBe(3)
+    })
+
+    it("Should transform string to number", () => {
+        const input = "2"
+
+        expect(transformToNumber(input)).toBe(2)
+    })
+
+    it("should transform string number to a number of type of number", () => {
+        const input = "2"
+
+        // expect(typeof transformToNumber(input)).toBe("number")
+        expect(transformToNumber(input)).toBeTypeOf("number")
+    })
+
+    it("should yield NaN for non-transformable values", () => {
+        const input = "invalid"
+        const input2 = {}
+
+        const result = transformToNumber(input)
+        const result2 = transformToNumber(input2)
+
+        expect(result).toBeNaN()
+        expect(result2).toBeNaN()
+    })
 })
 
-it("Should transform string to number", () => {
-    const input = "2"
 
-    expect(transformToNumber(input)).toBe(2)
-})
+describe("cleanNumbers", () => {
+    it("should return an array of number if an array of string number values is provided", () => {
+        const input = ["1", "2", "3"]
+        const result = cleanNumbers(input)
 
-it("should transform string number to a number of type of number", () => {
-    const input = "2"
+        expect(result).toEqual([1, 2, 3])
+        expect(result).toBeTypeOf("object")
+        expect(result[0]).toBeTypeOf("number")
+    })
 
-    // expect(typeof transformToNumber(input)).toBe("number")
-    expect(transformToNumber(input)).toBeTypeOf("number")
-})
-
-it("should yield NaN for non-transformable values", () => {
-    const input = "invalid"
-    const input2 = {}
-
-    const result = transformToNumber(input)
-    const result2 = transformToNumber(input2)
-
-    expect(result).toBeNaN()
-    expect(result2).toBeNaN()
+    it("should throw an error if an array with at least one empty string is provided", () => {
+        const numberValues = ["", 1]
+        const cleanFn = () => cleanNumbers(numberValues)
+        expect(cleanFn).toThrow()
+    })
 })
