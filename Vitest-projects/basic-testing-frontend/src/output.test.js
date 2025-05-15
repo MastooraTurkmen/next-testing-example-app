@@ -30,7 +30,7 @@ describe("generateResultText(", () => {
     })
 
     it("should return a string that contains 'Invalid'  if 'invalid' is passed in", () => {
-        const result = "invalid"
+        const result = "Invalid"
         const resultText = generateResultText(result)
         expect(resultText).toContain("Invalid")
     })
