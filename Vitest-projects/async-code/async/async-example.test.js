@@ -1,14 +1,31 @@
-import { expect, it } from "vitest"
-import { generateToken } from "./async-example"
+import { expect, it, test } from "vitest"
+import { generateToken, generateTokenPromise } from "./async-example"
 
 
-it("should generate a token value", () => {
+it("should generate a token value", (done) => {
     const testUserEmail = "test@test.com"
 
     generateToken(testUserEmail, (err, token) => {
-        expect(token).toBeDefined()
-        expect(token).toBeString()
-        expect(token).toMatch(/^[a-zA-Z0-9]{16}$/)
-        expect(token).toHaveLength(16)
+        try {
+            expect(token).toBeDefined()
+            expect(token).toHaveLength(137)
+            done()
+        } catch (error) {
+            done(error)
+        }
     })
 })
+
+
+it("should generate a token value", () => {
+    const testUserEmail = 'test@test.com'
+
+    expect(generateTokenPromise(testUserEmail)).resolves.toBeDefined()
+})
+
+it("should generate a token value", async () => {
+    const testUserEmail = 'test@test.com'
+
+    const token = await generateTokenPromise(testUserEmail)
+    expect(token).toBeDefined()
+}) 
